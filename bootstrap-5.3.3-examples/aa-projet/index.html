@@ -24,6 +24,8 @@
     />
 
     <link href="../assets/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="index.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   </head>
 
   <body>
@@ -47,60 +49,93 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="#">Accueil</a>
+              <a class="nav-link active" aria-current="page" href="#"
+                >Accueil</a
+              >
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#contexte">Contexte</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">Carte du monde</a>
-              </li>
-            <li class="nav-item dropdown">
-              <a
-                class="nav-link dropdown-toggle"
-                href="#"
-                role="button"
-                data-bs-toggle="dropdown"
-                aria-expanded="false"
-              >
-                Graphiques
-              </a>
-              <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="#">Action</a></li>
-                <li><a class="dropdown-item" href="#">Another action</a></li>
-                <li><hr class="dropdown-divider" /></li>
-                <li>
-                  <a class="dropdown-item" href="#">Something else here</a>
-                </li>
-              </ul>
+              <a class="nav-link" href="#cdm">Carte du monde</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#graphiques">Graphiques</a>
             </li>
           </ul>
         </div>
       </div>
     </nav>
     <div class="container-fluid">
-        <h2 class="text-center m-4">Voyage touristique international
-            en 2022</h2>
-            <img src="\img\avion.png" class="img-fluid rounded mx-auto d-block" alt="Responsive image">
+      <h1 class="text-center mt-5">Voyage touristique international en 2022</h1>
+      <img
+        src="\img\avion.png"
+        class="img-fluid rounded mx-auto d-block"
+        alt="Responsive image"
+      />
     </div>
-    <h2 class="ms-5" id="contexte">Contexte</h2>
+
     <div class="container">
-      <div class="row">
-        
-        <div class="col">
-          <img src="\img\sunrise avion.jpg" class="rounded float-start" alt="Responsive image">
+      <h2 class="ms-1 mb-5 mt-5" id="contexte">Contexte</h2>
+      <div class="container">
+        <div class="row">
+          <img
+            src="\img\sunrise avion.jpg"
+            class="img-fluid rounded mx-auto d-block w-25"
+            alt="Responsive image"
+          />
+          <div class="col">
+            <h4>Le tourisme repart enfin !</h4>
+            <p class="w-50">
+              Après la crise du tourisme liée au COVID-19, le tourisme a subi un
+              effondrement.  En 2022, le tourisme international a repris son
+              essor après les restrictions liées à cette pandémie. Les voyageurs
+              ont repris leurs activités et ont exploré des destinations variées
+              à travers le monde. Parmi les pays les plus visités, on retrouve
+              l’Espagne, les États-Unis et la France, connus pour leur culture
+              et leurs monuments. Le Mexique, le Maroc et l’Inde attirent par
+              leurs traditions uniques, tandis que la Chine, l’Afrique du Sud
+              fascinent avec leurs paysages et leur diversité.
+            </p>
+          </div>
         </div>
-        <div class="col">
-          <h4>Le tourisme repart enfin !</h4>
-          <p>Après la crise du tourisme liée au COVID-19, le tourisme a subi un effondrement. 
-            En 2022, le tourisme international a repris son essor après les restrictions liées à 
-            cette pandémie. Les voyageurs ont repris leurs activités et ont exploré des destinations
-             variées à travers le monde. Parmi les pays les plus visités, on retrouve l’Espagne, les États-Unis 
-             et la France, connus pour leur culture et leurs monuments. Le Mexique, le Maroc et l’Inde attirent
-              par leurs traditions uniques, tandis que la Chine, l’Afrique du Sud fascinent avec leurs paysages 
-              et leur diversité.</p>
+      </div>
+    </div>
+    <div class="container">
+      <h2 class="ms-1 mb-5 mt-5" id="cdm">Carte du monde</h2>
+      <div class="container">
+        <div class="row"></div>
+      </div>
+    </div>
+    <div class="container">
+      <h2 class="ms-1 mb-5 mt-5" id="graphiques">Graphiques</h2>
+      <div class="container">
+        <div class="row">
+          <canvas id="chart"></canvas>
         </div>
       </div>
     </div>
   </body>
+  <footer>
+    
+  </footer>
+  <script>
+    let ctx = document.getElementById('chart');
+    let data=[10,8,30,20,12,5];
+    let labels= ["janv","fév","mar","avr","mai","juin"];
+    new Chart(ctx, {
+      type: "line",
+      data: {
+        labels: labels,
+        datasets: [
+          {
+            label: "data",
+            data: data,
+            fill: true,
+            pointRadius: 0,
+          },
+        ],
+      },
+    });
+  </script>
 </html>
