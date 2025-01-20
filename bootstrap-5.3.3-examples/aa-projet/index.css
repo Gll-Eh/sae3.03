@@ -2,3 +2,13 @@
     height: 400px;
     width: 300px;
 }
+
+#hublot {
+    height: 300px;
+    width: 200px;
+    border-radius: 50%;
+    background-color: #000;
+    margin: 0 auto;
+    position: relative;
+    top: 10px;
+}
