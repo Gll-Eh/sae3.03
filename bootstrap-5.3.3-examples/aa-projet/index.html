@@ -134,12 +134,14 @@
       <h2 class="ms-1 mb-5 mt-5" id="graphiques">Graphiques</h2>
       <div class="container">
         <canvas id="chart"></canvas>
-        <select name="colors" id="col-select">
-          <option value="#e6362270">Red</option>
-          <option value="#22a1e670">Blue</option>
-          <option value="#1cad4770">Green</option>
-          <option value="#ffee0070">Yellow</option>
-        </select>
+        <input
+          type="range"
+          id="slider"
+          min="2015"
+          max="2022"
+          step="1"
+          value="2015"
+        />
         <select name="datasets" id="data-select">
           <option value="0">2015</option>
           <option value="1">2016</option>
@@ -149,8 +151,6 @@
           <option value="5">2020</option>
           <option value="6">2021</option>
           <option value="7">2022</option>
-          <option value="8">2023</option>
-          <option value="9">2024</option>
         </select>
       </div>
     </div>
@@ -194,26 +194,25 @@
     </div>
   </footer>
   <script>
+    const slider = document.getElementById("slider");
     const DATASETS = [
-      [8, 4, 5, 6, 10, 5, 9, 4],
-      [5, 1, 4, 3, 2, 2, 7, 3],
-      [5, 1, 8, 3, 6, 2, 2, 6],
-      [5, 1, 5, 3, 7, 2, 4, 9],
-      [8, 1, 8, 3, 7, 2, 4, 8],
-      [5, 1, 8, 4, 7, 2, 2, 1],
-      [5, 1, 8, 7, 5, 2, 7, 8],
-      [5, 1, 8, 3, 7, 2, 8, 5],
-      [5, 1, 8, 3, 7, 2, 1, 5],
-      [5, 1, 8, 3, 7, 2, 9, 5],
+      [68.18, 84.45, 77.77, 10.18, 32.09, 13.28, 56.89, 8.9],
+      [75.32, 82.68, 76.41, 10.33, 35.08, 14.57, 59.27, 10.04],
+      [81.87, 86.76, 77.19, 11.35, 39.29, 0, 60.74, 10.29],
+      [82.81, 89.32, 79.75, 12.29, 41.31, 0, 62.9, 10.47],
+      [83.51, 90.91, 79.44, 12.93, 45.02, 17.75, 65.73, 10.23],
+      [18.93, 41.68, 19.21, 2.78, 24.82, 6.29, 7.97, 2.8],
+      [31.18, 48.4, 22.28, 3.72, 31.86, 6.99, 0, 2.26],
+      [71.66, 48.4, 50.87, 10.87, 38.33, 6.99, 7.87, 5.7],
     ];
     let ctx = document.getElementById("chart");
-    new Chart(ctx, {
+    let chart = new Chart(ctx, {
       type: "bar",
       data: {
         labels: [
           "Espagne",
           "France",
-          "Etats-Unis",
+          "USA",
           "Maroc",
           "Mexique",
           "inde",
@@ -222,7 +221,7 @@
         ],
         datasets: [
           {
-            label: "data",
+            label: "Nombre de touriste dans l'année",
             data: DATASETS[0],
             backgroundColor: "#e6362270",
             borderWidth: 0,
@@ -242,5 +241,13 @@
     datasetSel.onchange = () => {
       handleDataChange(chart, datasetSel.value);
     };
+    slider.addEventListener('input', (event) => {
+            const year = event.target.value;
+            yearLabel.textContent = year;
+            renderChart(year);
+        });
+
+        // Initial render
+        chart.update();
   </script>
 </html>
