@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <canvas id="chart"></canvas>
+        <select name="colors" id="col-select">
+          <option value="#e6362270">Red</option>
+          <option value="#22a1e670">Blue</option>
+          <option value="#1cad4770">Green</option>
+          <option value="#ffee0070">Yellow</option>
+        </select>
+        <select name="datasets" id="data-select">
+            <option value="0">Dataset 1</option>
+            <option value="1">Dataset 2</option>
+            </select>
+</body>
+<script>
+    const DATASETS = [
+      [8, 4, 5, 6, 10, 5, 9, 4],
+      [5, 1, 4, 3, 2, 2, 7, 3],
+      [5, 1, 8, 3, 6, 2, 2, 6],
+      [5, 1, 5, 3, 7, 2, 4, 9],
+      [8, 1, 8, 3, 7, 2, 4, 8],
+      [5, 1, 8, 4, 7, 2, 2, 1],
+      [5, 1, 8, 7, 5, 2, 7, 8],
+      [5, 1, 8, 3, 7, 2, 8, 5],
+      [5, 1, 8, 3, 7, 2, 1, 5],
+      [5, 1, 8, 3, 7, 2, 9, 5],
+    ];
+    let ctx = document.getElementById('chart');
+    let chart = new Chart(ctx, {
+      type: "bar",
+      data: {
+        labels: [
+          "Espagne",
+          "France",
+          "Etats-Unis",
+          "Maroc",
+          "Mexique",
+          "inde",
+          "Chine",
+          "Afrique du Sud",
+        ],
+        datasets: [
+          {
+            label: "data",
+            data: DATASETS[0],
+            backgroundColor: "#e6362270",
+            borderWidth: 0,
+            pointRadius: 0,
+          },
+        ],
+        options: {
+          scale: { min: 0, max: 10 },
+        },
+      },
+    });
+    function handleDataChange(chart, datasetIndex) {
+      chart.data.datasets[0].data = DATASETS[datasetIndex];
+      chart.update();
+    }
+    const datasetSel = document.getElementById("data-select");
+    datasetSel.onchange = () => {
+      handleDataChange(chart, datasetSel.value);
+    };
+  </script>
+</html>
