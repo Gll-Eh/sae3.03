@@ -135,23 +135,16 @@
       <div class="container">
         <canvas id="chart"></canvas>
         <input
-          type="range"
-          id="slider"
-          min="2015"
-          max="2022"
-          step="1"
-          value="2015"
-        />
-        <select name="datasets" id="data-select">
-          <option value="0">2015</option>
-          <option value="1">2016</option>
-          <option value="2">2017</option>
-          <option value="3">2018</option>
-          <option value="4">2019</option>
-          <option value="5">2020</option>
-          <option value="6">2021</option>
-          <option value="7">2022</option>
-        </select>
+              type="range"
+              id="year-slider"
+              min="0"
+              max="7"
+              value="0"
+              step="1"
+              style="width: 100%; margin-top: 20px;"
+            />
+            <div class="text-center mt-2">
+              <span id="current-year">2015</span>
       </div>
     </div>
   </body>
@@ -194,6 +187,9 @@
     </div>
   </footer>
   <script>
+    const years = [
+  2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024,
+];
     const slider = document.getElementById("slider");
     const DATASETS = [
       [68.18, 84.45, 77.77, 10.18, 32.09, 13.28, 56.89, 8.9],
@@ -229,25 +225,24 @@
           },
         ],
         options: {
-          scale: { min: 0, max: 10 },
+          scales: {
+      y: {
+        beginAtZero: true,
+      },
+    },
         },
       },
     });
-    function handleDataChange(chart, datasetIndex) {
-      chart.data.datasets[0].data = DATASETS[datasetIndex];
-      chart.update();
-    }
-    const datasetSel = document.getElementById("data-select");
-    datasetSel.onchange = () => {
-      handleDataChange(chart, datasetSel.value);
-    };
-    slider.addEventListener('input', (event) => {
-            const year = event.target.value;
-            yearLabel.textContent = year;
-            renderChart(year);
-        });
 
-        // Initial render
-        chart.update();
+    const yearSlider = document.getElementById("year-slider");
+const currentYear = document.getElementById("current-year");
+
+yearSlider.addEventListener("input", (event) => {
+  const yearIndex = event.target.value;
+  chart.data.datasets[0].data = DATASETS[yearIndex];
+  chart.update();
+
+  currentYear.textContent = years[yearIndex];
+});
   </script>
 </html>
