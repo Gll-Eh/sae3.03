@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Carte Interactive avec Popup et Phrase Supplémentaire</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" />
+  <style>
+    #map {
+      height: 100vh;
+    }
+    .popup-content {
+      text-align: center;
+    }
+    .popup-content img {
+      max-width: 100px;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div id="map"></div>
+  <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"></script>
+  <script>
+    // Initialisation de la carte
+    const map = L.map('map').setView([20, 0], 2);
+
+    // Couche de base OpenStreetMap
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.jpg', {
+      maxZoom: 18,
+    }).addTo(map);
+
+    // Liste des pays avec leurs données (nom, pourcentage, image, couleurs, et info supplémentaire)
+    const specialCountries = {
+      "Spain": { percentage: "70%", image: "https://via.placeholder.com/100x100.png?text=Espagne", color: "#1E90FF", hoverColor: "#4682B4", info: "L'Espagne est célèbre pour ses plages et ses festivals." },
+      "United States of America": { percentage: "85%", image: "https://via.placeholder.com/100x100.png?text=USA", color: "#32CD32", hoverColor: "#228B22", info: "Les États-Unis sont connus pour leur influence culturelle mondiale." },
+      "France": { percentage: "60%", image: "https://media.istockphoto.com/id/1145422105/fr/photo/vue-aérienne-de-la-tour-eiffel-paris.jpg?s=612x612&w=0&k=20&c=uzZ9u2Io4B92oDVeAhyom9zDaMMrdU8HFMl29bV3opU=", color: "#FFD700", hoverColor: "#FFA500", info: "La France est la capitale mondiale du vin et de la mode." },
+      "Mexico": { percentage: "75%", image: "https://via.placeholder.com/100x100.png?text=Mexique", color: "#FF6347", hoverColor: "#FF4500", info: "Le Mexique est réputé pour sa cuisine épicée et ses traditions colorées." },
+      "Morocco": { percentage: "50%", image: "https://via.placeholder.com/100x100.png?text=Maroc", color: "#8A2BE2", hoverColor: "#6A5ACD", info: "Le Maroc est célèbre pour ses souks et son architecture unique." },
+      "China": { percentage: "90%", image: "https://via.placeholder.com/100x100.png?text=Chine", color: "#FF69B4", hoverColor: "#FF1493", info: "La Chine est une puissance économique et technologique majeure." },
+      "India": { percentage: "80%", image: "https://via.placeholder.com/100x100.png?text=Inde", color: "#40E0D0", hoverColor: "#20B2AA", info: "L'Inde est connue pour sa diversité culturelle et son industrie cinématographique." },
+      "South Africa": { percentage: "65%", image: "https://via.placeholder.com/100x100.png?text=Afrique+du+Sud", color: "#DC143C", hoverColor: "#B22222", info: "L'Afrique du Sud est célèbre pour ses safaris et sa biodiversité." },
+    };
+
+    // Charger les données GeoJSON pour tous les pays
+    const geojsonUrl = "https://raw.githubusercontent.com/johan/world.geo.json/master/countries.geo.json";
+
+    fetch(geojsonUrl)
+      .then(response => response.json())
+      .then(data => {
+        L.geoJSON(data, {
+          style: (feature) => {
+            const countryName = feature.properties.name;
+            if (specialCountries[countryName]) {
+              return {
+                color: "#333",
+                weight: 1,
+                fillColor: specialCountries[countryName].color,
+                fillOpacity: 0.7,
+              };
+            }
+            return {
+              color: "#333",
+              weight: 1,
+              fillColor: "#ccc",
+              fillOpacity: 0.7,
+            };
+          },
+          onEachFeature: (feature, layer) => {
+            const countryName = feature.properties.name;
+
+            // Interaction pour tous les pays
+            layer.on({
+              mouseover: (e) => {
+                const special = specialCountries[countryName];
+                if (special) {
+                  e.target.setStyle({ fillColor: special.hoverColor, fillOpacity: 1 });
+
+                  // Afficher le popup
+                  const popupContent = `
+                    <div class="popup-content">
+                      <strong>${countryName}</strong><br>
+                      Pourcentage : ${special.percentage}<br>
+                      <span>${special.info}</span><br>
+                      <img src="${special.image}" alt="${countryName}">
+                    </div>
+                  `;
+                  const popup = L.popup()
+                    .setLatLng(e.latlng)
+                    .setContent(popupContent)
+                    .openOn(map);
+                } else {
+                  e.target.setStyle({ fillColor: '#ff5733', fillOpacity: 1 });
+                }
+              },
+              mouseout: (e) => {
+                const special = specialCountries[countryName];
+                if (special) {
+                  e.target.setStyle({ fillColor: special.color, fillOpacity: 0.7 });
+                } else {
+                  e.target.setStyle({ fillColor: '#ccc', fillOpacity: 0.7 });
+                }
+                map.closePopup(); // Ferme le popup
+              },
+            });
+          },
+        }).addTo(map);
+      });
+  </script>
+</body>
+</html>
