@@ -24,12 +24,12 @@
   <script>
     // Initialisation de la carte
     const map = L.map('map').setView([20, 0], 2);
-
+  
     // Couche de base OpenStreetMap
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.jpg', {
       maxZoom: 18,
     }).addTo(map);
-
+  
     // Liste des pays avec leurs données (nom, pourcentage, image, couleurs, et info supplémentaire)
     const specialCountries = {
       "Spain": { percentage: "30%", image: "https://images.ctfassets.net/bth3mlrehms2/2T2y3fo3Z60l0XXMwjtstO/b49fd2cafa39dce2eed8791091e16ec3/Europe_Espagne_Barcelone_Sagrada_Familia.jpg?w=3841&h=2160&fl=progressive&q=50&fm=jpg", color: "#3f3134", hoverColor: "#D1ACB6", info: "En 2022, l'Espagne a été le pays le plus visité avec plus de 71 Millions de visiteurs à l'année. Grâce à ses nombreux paysages et ses villes mythiques ytelles que Madrid, Barcelone ou Valence, les touristes arrivent en masse pour les découvrir." },
@@ -41,14 +41,18 @@
       "India": { percentage: "3%", image: "https://upload.wikimedia.org/wikipedia/commons/7/74/Taj_Mahal%2C_Agra%2C_India_edit2.jpg", color: "#D13255", hoverColor: "#D1ACB6", info: "En 2022, l'Inde a enregistré plus de 6.99 millions de visiteurs dans son pays ce qui fait de lui le septième pays le plus visité cette année là juste devant l'Afrique du Sud." },
       "South Africa": { percentage: "2%", image: "https://images.ctfassets.net/rc3dlxapnu6k/7MlCb2W2dtfLl1sPiCv4fd/dbb9d5a8c091562012d6bcbe1336f1e5/iStock-477451698.jpg?w=2092&h=1176&fl=progressive&q=50&fm=jpg", color: "#DC143C", hoverColor: "#D1ACB6", info: "En 2022, l'Afrique du Sud se retrouve en huitième position de notre classement avec presque 6 millions de visiteurs cette année là." },
     };
-
+  
     // Charger les données GeoJSON pour tous les pays
     const geojsonUrl = "https://raw.githubusercontent.com/johan/world.geo.json/master/countries.geo.json";
-
+  
     fetch(geojsonUrl)
       .then(response => response.json())
       .then(data => {
         L.geoJSON(data, {
+          filter: (feature) => {
+        // Exclure l'Antarctique
+        return feature.properties.name !== "Antarctica";
+      },
           style: (feature) => {
             const countryName = feature.properties.name;
             if (specialCountries[countryName]) {
@@ -68,14 +72,14 @@
           },
           onEachFeature: (feature, layer) => {
             const countryName = feature.properties.name;
-
+  
             // Interaction pour tous les pays
             layer.on({
               mouseover: (e) => {
                 const special = specialCountries[countryName];
                 if (special) {
                   e.target.setStyle({ fillColor: special.hoverColor, fillOpacity: 1 });
-
+  
                   // Afficher le popup
                   const popupContent = `
                     <div class="popup-content">
@@ -100,10 +104,17 @@
                 }
                 map.closePopup(); // Ferme le popup
               },
+              click: (e) => {
+                // Zoom sur le pays
+                map.fitBounds(layer.getBounds());
+              },
             });
           },
         }).addTo(map);
       });
   </script>
+  
 </body>
 </html>
+
+// 
