@@ -10986,7 +10986,7 @@ header.masthead .masthead-heading {
     margin-bottom: 4rem;
   }
   #map {
-    height: 100vh;
+    height: 600px;
   }
   .popup-content {
     text-align: center;
@@ -10995,12 +10995,6 @@ header.masthead .masthead-heading {
     max-width: 100px;
     margin-top: 10px;
   }
-.drapeaux {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: 20px;
-}
 }
 #portfolio .portfolio-item {
   max-width: 26rem;
