@@ -93,7 +93,7 @@ responsiveNavItems.map(function (responsiveNavItem) {
                 <a class="btn btn-primary btn-xl text-uppercase" href="#services">Voir le Contexte</a>
             </div>
         </header>
-        <!-- Services-->
+        <!-- Conte-->
         <section class="page-section" id="services">
             <div class="container">
                 <div class="text-center">
@@ -136,7 +136,7 @@ responsiveNavItems.map(function (responsiveNavItem) {
                 </div>
             </div>
         </section>
-        <!-- About-->
+        <!-- Map-->
         <section class="page-section" id="about">
             <div class="container">
                 <div class="text-center">
@@ -147,7 +147,7 @@ responsiveNavItems.map(function (responsiveNavItem) {
               <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"></script>
             </div>
         </section>
-        <!-- Team-->
+        <!-- Graphique-->
         <section class="page-section bg-light" id="team">
             <div class="container">
                 <div class="text-center">
@@ -347,4 +347,16 @@ responsiveNavItems.map(function (responsiveNavItem) {
 });
 
       </script>
+      <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const burger = document.querySelector('.navbar-burger');
+            const menu = document.querySelector('.navbar-menu');
+    
+            burger.addEventListener('click', () => {
+    
+                burger.classList.toggle('is-active');
+                menu.classList.toggle('is-active');
+            });
+        });
+    </script>
 </html>
