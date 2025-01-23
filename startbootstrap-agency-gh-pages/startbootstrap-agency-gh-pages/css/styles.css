@@ -385,6 +385,8 @@ button,
 [type=reset],
 [type=submit] {
   -webkit-appearance: button;
+  appearance: button;
+  appearance: button;
 }
 button:not(:disabled),
 [type=button]:not(:disabled),
@@ -443,6 +445,7 @@ legend + * {
 [type=search] {
   outline-offset: -2px;
   -webkit-appearance: textfield;
+  appearance: textfield;
 }
 
 /* rtl:raw:
@@ -463,7 +466,6 @@ legend + * {
 
 ::file-selector-button {
   font: inherit;
-  -webkit-appearance: button;
 }
 
 output {
@@ -10986,7 +10988,21 @@ header.masthead .masthead-heading {
     margin-bottom: 4rem;
   }
   #map {
-    height: 600px;
+    width: 100%;
+    height: 600px; /* Ajustez la hauteur selon vos besoins */
+    margin: auto;
+  }
+  
+  @media (max-width: 768px) {
+    #map {
+      height: 300px;
+    }
+  }
+  
+  @media (max-width: 576px) {
+    #map {
+      height: 200px;
+    }
   }
   .popup-content {
     text-align: center;
